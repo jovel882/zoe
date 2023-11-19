@@ -20,4 +20,11 @@ class SecurityType extends Model
     {
         return $this->hasMany(Security::class);
     }
+
+    public function getFromNameWithSecurities(string $name): self|null
+    {
+        return $this->whereName($name)
+            ->with(['securities'])
+            ->first();
+    }
 }
