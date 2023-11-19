@@ -20,7 +20,7 @@ class SecurityPrice
 	{
     }
 
-    public function __invoke(string $securityType)
+    public function __invoke(string $securityType): array|null
 	{
 		try {
 			DB::beginTransaction();
@@ -37,6 +37,7 @@ class SecurityPrice
 					]
 				);
 			}
+			return $securityPrices;
 		} catch (Throwable $throw) {
 			DB::rollBack();
 			throw $throw;

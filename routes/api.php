@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,3 +12,11 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+
+Route::group([
+    'prefix' => 'v1',
+    'middleware' => ['api'],
+], function () {
+	Route::post('sync_price', 'SyncPriceController@syncPrice')
+		->name('sync_price');
+});
