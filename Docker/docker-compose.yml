@@ -1,0 +1,86 @@
+version: '3'
+services:
+  proxy_zoe:
+    image: jwilder/nginx-proxy
+    container_name: proxy_zoe
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+    privileged: true
+    networks:
+      - local_containers
+  redis_zoe:
+    image: redis
+    container_name: redis_zoe
+    ports:
+      - "6379:6379"
+    restart: always
+    volumes:
+      - ./redis.conf:/etc/redis/redis.conf      
+    networks:
+      - local_containers
+    environment:
+      - VIRTUAL_HOST=redis.zoe.test
+      - VIRTUAL_PORT=6379
+    command: redis-server /etc/redis/redis.conf
+    depends_on:
+      - proxy_zoe      
+  mdb_zoe:
+    image: mariadb:10.3.38
+    container_name: mdb_zoe
+    ports:
+      - "3396:3306"
+    restart: always
+    env_file: 
+      - .env
+    environment:
+      - VIRTUAL_HOST=db.zoe.test
+      - VIRTUAL_PORT=3306      
+    networks:
+      - local_containers
+    depends_on:
+      - proxy_zoe      
+  mh_zoe:
+    image: mailhog/mailhog
+    container_name: mh_zoe
+    logging:
+      driver: 'none'
+    ports:
+      - 1025:1025
+      - 8025:8025
+    environment:
+      - VIRTUAL_HOST=mail.zoe.test
+      - VIRTUAL_PORT=8025
+    networks:
+      - local_containers
+    depends_on:
+      - proxy_zoe
+  zoe:
+    build:
+      context: ../.
+      dockerfile: Dockerfile  
+    image: jovel882/zoe:1.0
+    container_name: zoe
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    env_file:
+      - .env
+    environment:
+      - SKIP_COMPOSER=1
+      - VIRTUAL_HOST=zoe.test
+    networks:
+      - local_containers
+    restart: always
+    depends_on:
+      - proxy_zoe
+      - mdb_zoe
+      - redis_zoe
+      - mh_zoe
+    privileged: true
+networks:
+  local_containers:
+    name: local_containers
