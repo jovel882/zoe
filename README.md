@@ -273,7 +273,7 @@
             <br/>
             <br/>
 
-        + Endpoint para sincronizar un tipo especifico. Se desarrollo bajo en la url `/api/v1/sync_price?type=`. Ej. [http://zoe.test/api/v1/sync_price?type=](http://zoe.test/api/v1/sync_price?type=).
+        + Endpoint para sincronizar un tipo especifico. Se desarrollo bajo en la url `/api/v1/sync_price?type=` y el methodo `POST`. Ej. [http://zoe.test/api/v1/sync_price?type=](http://zoe.test/api/v1/sync_price?type=).
 
             <br/>
             <br/>
