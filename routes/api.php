@@ -17,6 +17,6 @@ Route::group([
     'prefix' => 'v1',
     'middleware' => ['api'],
 ], function () {
-	Route::post('sync_price', 'SyncPriceController@syncPrice')
-		->name('sync_price');
+    Route::post('sync_price', 'SyncPriceController@syncPrice')
+        ->name('sync_price');
 });
