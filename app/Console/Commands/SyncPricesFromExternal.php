@@ -22,7 +22,8 @@ class SyncPricesFromExternal extends Command
      *
      * @var string
      */
-    protected $description = 'Synchronizes the prices from the external source of the specified security type or from all those registered in the DB if none is defined.';
+    protected $description = 'Synchronizes the prices from the \n
+        external source of the specified security type or from all those registered in the DB if none is defined.';
 
     /**
      * Execute the console command.
@@ -46,7 +47,7 @@ class SyncPricesFromExternal extends Command
     ): bool
     {
         if ('all' == $securityTypeName) {
-            foreach($securityType->all() as $securityType) {
+            foreach ($securityType->all() as $securityType) {
                 $securityTypeName = $securityType->name;
                 SyncSecurityPrice::dispatch($securityTypeName, $sendAlertErrorSynPrice);
             }

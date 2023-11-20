@@ -18,7 +18,8 @@ class ServicesProvider extends ServiceProvider implements DeferrableProvider
             GetData::class,
             fn (Application $app) =>
                 /**
-                 * Idealmente seria el lugar para pasar todas las variables con configuracion del servicio como tokens, variables de autenticacion, url, rates, etc.
+                 * Idealmente seria el lugar para pasar todas las variables con configuracion del servicio como tokens,
+                 * variables de autenticacion, url, rates, etc.
                  */
                 new GetData(env('URL_SERVICE', ''))
         );
